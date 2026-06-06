@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Bottega — Il Buongustaio</title>
+<link rel="icon" type="image/jpeg" href="logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cipresso:#2E3D2F;--oliva:#5A6B47;--oro:#A8843C;--oro-chiaro:#C9A961;
+  --pietra:#D9C9A8;--avorio:#EFE6D2;--panna:#F0EAD8;--carta:#E5D9C2;
+  --inchiostro:#1A1612;--inchiostro-soft:#5A4632;--carmignano:#6B1F1F;
+  --grafite:#3F3A33;--polvere:#8B847A;--linea:rgba(168,132,60,0.25);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--panna);color:var(--inchiostro);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* header */
+.sh-header{position:sticky;top:0;z-index:60;background:rgba(240,234,216,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--linea);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.sh-header .back{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--inchiostro);text-decoration:none;font-weight:500}
+.sh-header .back:hover{color:var(--oro)}
+.sh-header .logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:var(--inchiostro);letter-spacing:.02em}
+.sh-header .logo em{font-style:italic;color:var(--carmignano)}
+.cart-btn{position:relative;background:none;border:0;cursor:pointer;color:var(--inchiostro);display:flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.15em;text-transform:uppercase}
+.cart-btn svg{width:22px;height:22px}
+.cart-badge{position:absolute;top:-8px;right:-10px;background:var(--carmignano);color:#fff;font-size:10px;min-width:17px;height:17px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:600;padding:0 4px}
+
+/* hero strip */
+.sh-hero{text-align:center;padding:40px 20px 14px}
+.sh-hero .ov{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--oro);font-weight:600;margin-bottom:12px}
+.sh-hero h1{font-family:'Playfair Display',serif;font-weight:500;font-size:40px;line-height:1;color:var(--inchiostro)}
+@media(min-width:768px){.sh-hero h1{font-size:60px}}
+.sh-hero h1 em{font-style:italic;color:var(--cipresso)}
+
+/* layout */
+.sh-layout{display:flex;gap:0;max-width:1280px;margin:0 auto;padding:0 0 60px}
+/* sidebar */
+.sh-side{flex:0 0 230px;padding:30px 18px 30px 28px}
+.sh-side .side-title{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--polvere);font-weight:600;margin-bottom:16px}
+.cat-list{list-style:none;display:flex;flex-direction:column;gap:2px}
+.cat-list button{width:100%;text-align:left;background:none;border:0;cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--inchiostro-soft);padding:9px 14px;border-left:2px solid transparent;transition:all .18s;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.cat-list button:hover{color:var(--inchiostro);background:var(--avorio)}
+.cat-list button.on{color:var(--carmignano);border-left-color:var(--oro);background:var(--avorio);font-weight:500}
+.cat-list .cnt{font-family:'Inter',sans-serif;font-size:10px;color:var(--polvere)}
+.cat-list .soon{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--oro-chiaro)}
+.cat-list button.disabled{opacity:.5;cursor:default}
+.cat-list button.disabled:hover{background:none}
+
+/* main */
+.sh-main{flex:1;min-width:0;padding-top:14px}
+
+/* coverflow */
+.stage{position:relative;height:430px;perspective:1300px;display:flex;align-items:center;justify-content:center;touch-action:pan-y;user-select:none}
+@media(min-width:768px){.stage{height:480px}}
+.track{position:relative;width:300px;height:100%;transform-style:preserve-3d}
+.pcard{position:absolute;top:50%;left:50%;width:300px;margin-left:-150px;margin-top:-205px;height:410px;background:var(--avorio);border:1px solid var(--linea);cursor:pointer;transition:transform .45s cubic-bezier(.22,.61,.36,1),opacity .45s,box-shadow .3s;will-change:transform,opacity;display:flex;flex-direction:column;backface-visibility:hidden}
+.pcard .imgwrap{flex:1;overflow:hidden;background:#fff;display:flex;align-items:center;justify-content:center;padding:14px}
+.pcard img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
+.pcard .cap{padding:13px 16px;background:var(--panna);border-top:1px solid var(--linea)}
+.pcard .cap .sub{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--polvere);margin-bottom:3px}
+.pcard .cap .nm{font-family:'Playfair Display',serif;font-size:16px;line-height:1.15;color:var(--inchiostro)}
+.pcard.active{box-shadow:0 26px 60px rgba(26,22,18,.22)}
+/* badge discreti: solo se servono, piccoli, angolo alto-dx */
+.mini-badges{position:absolute;top:11px;right:11px;display:flex;flex-direction:column;gap:5px;align-items:flex-end;z-index:5}
+.mini-badge{font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:3px 7px;background:rgba(240,234,216,.92);border:1px solid var(--linea);line-height:1}
+.mini-badge.novita{color:var(--oro)}
+.mini-badge.offerta{color:var(--carmignano);border-color:rgba(107,31,31,.4)}
+
+/* arrows */
+.nav-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:40;width:46px;height:46px;border-radius:50%;background:var(--panna);border:1px solid var(--linea);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--inchiostro);box-shadow:0 6px 18px rgba(26,22,18,.12);transition:background .2s}
+.nav-arrow:hover{background:var(--avorio)}
+.nav-arrow svg{width:18px;height:18px}
+.nav-arrow.prev{left:6px}
+.nav-arrow.next{right:6px}
+@media(min-width:1024px){.nav-arrow.prev{left:30px}.nav-arrow.next{right:30px}}
+
+/* caption / detail */
+.detail{max-width:600px;margin:6px auto 0;text-align:center;padding:0 24px;min-height:200px}
+.detail .ov{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--oro);font-weight:600;margin-bottom:8px}
+.detail h2{font-family:'Playfair Display',serif;font-weight:500;font-size:30px;line-height:1.1;color:var(--inchiostro);margin-bottom:6px}
+.detail .marca{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--carmignano);margin-bottom:16px}
+.detail .storia{font-family:'Cormorant Garamond',serif;font-size:19px;line-height:1.6;color:var(--grafite);margin-bottom:22px}
+.detail .azioni{display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap}
+.btn-add{background:var(--inchiostro);color:var(--panna);border:0;cursor:pointer;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;padding:15px 30px;transition:background .2s}
+.btn-add:hover{background:var(--carmignano)}
+.detail .hint{font-family:'Caveat',cursive;font-size:18px;color:var(--polvere)}
+.dots{display:flex;gap:7px;justify-content:center;margin:18px 0 4px;flex-wrap:wrap;max-width:340px;margin-left:auto;margin-right:auto}
+.dots span{width:7px;height:7px;border-radius:50%;background:var(--linea);transition:all .2s;cursor:pointer}
+.dots span.on{background:var(--oro);transform:scale(1.35)}
+
+/* mobile categories */
+.cat-mobile{display:none}
+@media(max-width:860px){
+  .sh-layout{flex-direction:column;padding-bottom:48px}
+  .sh-side{display:none}
+  .cat-mobile{display:flex;gap:8px;overflow-x:auto;padding:6px 16px 14px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .cat-mobile::-webkit-scrollbar{display:none}
+  .cat-mobile button{flex:0 0 auto;white-space:nowrap;background:var(--avorio);border:1px solid var(--linea);cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--inchiostro-soft);padding:8px 16px;border-radius:40px}
+  .cat-mobile button.on{background:var(--carmignano);color:var(--panna);border-color:var(--carmignano)}
+  .cat-mobile button.disabled{opacity:.45}
+  .stage{height:400px}
+  .pcard{width:250px;margin-left:-125px;height:360px;margin-top:-180px}
+  .track{width:250px}
+  .detail h2{font-size:25px}
+  .detail .storia{font-size:17px}
+}
+
+/* toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--cipresso);color:var(--panna);padding:14px 24px;font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;box-shadow:0 12px 30px rgba(26,22,18,.25);z-index:80;transition:transform .35s;border-top:2px solid var(--oro)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* cart drawer */
+.cart-overlay{position:fixed;inset:0;background:rgba(26,22,18,.45);z-index:90;opacity:0;pointer-events:none;transition:opacity .3s}
+.cart-overlay.open{opacity:1;pointer-events:auto}
+.cart-drawer{position:fixed;top:0;right:0;height:100%;width:min(380px,86vw);background:var(--panna);z-index:91;transform:translateX(100%);transition:transform .35s cubic-bezier(.22,.61,.36,1);display:flex;flex-direction:column;border-left:3px solid var(--oro)}
+.cart-drawer.open{transform:translateX(0)}
+.cart-drawer h3{font-family:'Playfair Display',serif;font-weight:500;font-size:24px;padding:24px;border-bottom:1px solid var(--linea)}
+.cart-items{flex:1;overflow-y:auto;padding:8px 24px}
+.cart-row{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px dashed var(--linea)}
+.cart-row img{width:48px;height:48px;object-fit:cover;border:1px solid var(--linea)}
+.cart-row .nm{flex:1;font-family:'Cormorant Garamond',serif;font-size:16px}
+.cart-row button{background:none;border:0;color:var(--carmignano);cursor:pointer;font-size:18px}
+.cart-empty{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--polvere);padding:30px 0;text-align:center}
+.cart-foot{padding:20px 24px;border-top:1px solid var(--linea)}
+.cart-foot .btn-add{width:100%}
+.cart-close{position:absolute;top:22px;right:20px;background:none;border:0;font-size:24px;cursor:pointer;color:var(--inchiostro)}
+</style>
+</head>
+<body>
+
+<header class="sh-header">
+  <a href="index.html" class="back"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 3 L4 7 L9 11"/></svg>Sito</a>
+  <div class="logo">Il Buongustaio · <em>la Bottega</em></div>
+  <button class="cart-btn" id="cartBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M6 6 5 3H2"/></svg>Carrello<span class="cart-badge" id="cartBadge" style="display:none">0</span></button>
+</header>
+
+<section class="sh-hero">
+  <p class="ov">scelti uno per uno</p>
+  <h1>La <em>Bottega</em></h1>
+</section>
+
+<div class="cat-mobile" id="catMobile"></div>
+
+<div class="sh-layout">
+  <aside class="sh-side">
+    <p class="side-title">Reparti</p>
+    <ul class="cat-list" id="catList"></ul>
+  </aside>
+
+  <main class="sh-main">
+    <div class="stage" id="stage">
+      <button class="nav-arrow prev" id="prevBtn" aria-label="Precedente"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 2 L4 7 L9 12"/></svg></button>
+      <div class="track" id="track"></div>
+      <button class="nav-arrow next" id="nextBtn" aria-label="Successivo"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 2 L10 7 L5 12"/></svg></button>
+    </div>
+    <div class="dots" id="dots"></div>
+    <div class="detail" id="detail"></div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <button class="cart-close" id="cartClose">×</button>
+  <h3>Il tuo carrello</h3>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <button class="btn-add" id="checkoutBtn">Vai all'ordine →</button>
+  </div>
+</aside>
+
+<script>
+/* ===== DATI PRODOTTI ===== */
+const PRODOTTI = [
+  // FORMAGGI (bancone, al taglio)
+  {slug:'granaresu', nome:'Granaresu', marca:'Pecorino sardo stagionato', cat:'formaggi', tipo:'banco', storia:'Pecorino sardo a lunga stagionatura: pasta granulosa e un sapore che riempie la bocca. Lo teniamo intero e lo tagliamo davanti a te, scaglia dopo scaglia.'},
+  {slug:'moliterno', nome:'Pecorino Moliterno', marca:'Crosta scura, pasta bianca', cat:'formaggi', tipo:'banco', storia:'Il pecorino della tradizione del Sud, crosta scura e pasta compatta. A scaglie con un filo di miele è un piccolo lusso quotidiano.'},
+  {slug:'sardo-asina', nome:'Formaggio di Asina', marca:'Latte d\u2019asina · rarità', cat:'formaggi', tipo:'banco', novita:true, storia:'Una rarità che trovi solo da noi: formaggio di latte d\u2019asina, dolce e delicato. Ne arriva pochissimo \u2014 quando c\u2019è, c\u2019è.'},
+  {slug:'pecorino-amatriciano', nome:'Pecorino Amatriciano "Anatrì"', marca:'Caseificio Storico di Amatrice', cat:'formaggi', tipo:'banco', storia:'Cento per cento latte italiano dal caseificio storico di Amatrice. Sapido e diretto: nato per la pasta, ma buono anche da solo.'},
+  {slug:'sol-di-capra', nome:'Sol di Capra', marca:'Mangiar Bene', cat:'formaggi', tipo:'banco', storia:'Caprino umbro a pasta morbida. Fresco, appena acidulo: una fetta su pane caldo e sei già a posto.'},
+  // SALUMI (bancone)
+  {slug:'jamon-959', nome:'Jamón de Bellota 100% Ibérico', marca:'959 · taglio a mano', cat:'salumi', tipo:'banco', novita:true, storia:'Il nostro pezzo da re: jamón 100% iberico di ghianda, tagliato a mano. Si scioglie in bocca e profuma di bosco. Da assaporare lentamente.'},
+  {slug:'collverd-anatra', nome:'Petto d\u2019anatra stagionato', marca:'Collverd', cat:'salumi', tipo:'banco', storia:'Petto d\u2019anatra stagionato e affettato sottile. Dolce e particolare: sorprende sempre chi lo prova per la prima volta sul tagliere.'},
+  {slug:'capocollo', nome:'Capocollo stagionato', marca:'Affettato al momento', cat:'salumi', tipo:'banco', storia:'Marezzato al punto giusto, lo affettiamo al momento \u2014 spesso o sottile, come piace a te. Il salume che mette d\u2019accordo tutti.'},
+  // POMODORI & SUGHI (bottega)
+  {slug:'pelati-lc', nome:'Pomodori Pelati Interi', marca:'La Catedral de Navarra', cat:'pomodori', tipo:'bottega', storia:'Pomodori pelati interi in succo: una delle migliori conserve che passano dal banco. Per un sugo che sa davvero di pomodoro.'},
+  {slug:'pelati-bio', nome:'Pomodori Pelati Bio', marca:'Coltivati in Italia', cat:'pomodori', tipo:'bottega', storia:'Pelati biologici coltivati in Italia. Pochi ingredienti, nessun fronzolo: solo pomodoro come dovrebbe essere sempre.'},
+  {slug:'la-gialla', nome:'La Gialla · Passata di pomodoro giallo', marca:'I Contadini', cat:'pomodori', tipo:'bottega', storia:'Passata di pomodoro giallo, senza sale aggiunto. Dolce e delicata: cambia il colore del piatto e le regole del sugo.'},
+  {slug:'terra-viva-semidry', nome:'Semidry · Piennolo del Vesuvio DOP', marca:'Terra Viva', cat:'pomodori', tipo:'bottega', storia:'Pomodorino del Piennolo del Vesuvio DOP, semi-essiccato al sole. Concentrato di sole e sapore: su una bruschetta è festa.'},
+  // SOTT'OLI (bottega)
+  {slug:'carciofi', nome:'Carciofi sott\u2019olio', marca:'I Contadini', cat:'sottoli', tipo:'bottega', storia:'Carciofi in olio extravergine. Teneri e pronti: per l\u2019antipasto svelto o per finire in bellezza una schiacciata.'},
+  {slug:'pomodorini-confit', nome:'Pomodorini Confit', marca:'I Contadini', cat:'sottoli', tipo:'bottega', storia:'Dolci metà essiccate sott\u2019olio. Una cucchiaiata trasforma una pasta veloce in qualcosa di serio.'},
+  {slug:'pomodori-lunghi', nome:'Pomodori Lunghi essiccati al sole', marca:'I Contadini', cat:'sottoli', tipo:'bottega', storia:'Polpa intensa, essiccati al sole e messi sott\u2019olio extravergine. Tritati su un crostone caldo non hanno rivali.'},
+  {slug:'cipolle-rosse', nome:'Cipolle Rosse al mosto cotto', marca:'I Contadini', cat:'sottoli', tipo:'bottega', storia:'Essiccate e accarezzate dal mosto cotto d\u2019uva. Agrodolce elegante: sui formaggi stagionati fanno un figurone.'},
+  {slug:'borettane', nome:'Le Borettane · cipolline grigliate', marca:'I Contadini', cat:'sottoli', tipo:'bottega', storia:'Cipolline Borettane grigliate a mano e messe sott\u2019olio. Dolci e affumicate: spariscono dal tagliere in un attimo.'},
+  // MARE (bottega)
+  {slug:'colimena-tonno', nome:'Tonno', marca:'Colimena · la fabbrica del tonno', cat:'mare', tipo:'bottega', storia:'Tranci sodi di tonno in vetro, dal Salento. Un\u2019altra storia rispetto alla solita scatoletta: si sente alla prima forchettata.'},
+  {slug:'codesa-ventresca', nome:'Ventresca di Tonno', marca:'Codesa · dal 1976', cat:'mare', tipo:'bottega', storia:'La parte più pregiata e morbida del tonno, in olio d\u2019oliva. Si scioglie: da gustare quasi senza accompagnamento.'},
+  {slug:'bottarga-scandia', nome:'Bottarga di Muggine intera', marca:'Scandia · Sapori di Sardegna', cat:'mare', tipo:'bottega', storia:'Mare puro di Sardegna. Grattugiata sulla pasta o a lamelle con un filo d\u2019olio e limone: poche cose così.'},
+  // CANTINA (vini)
+  {slug:'vino-burson', nome:'Bursôn Etichetta Nera', marca:'Tenuta Uccellina · Romagna', cat:'cantina-rossi', tipo:'bottega', storia:'Da uva Longanesi, antico vitigno autoctono della pianura ravennate. Uve appassite in fruttaio e affinamento in rovere: rosso granato, deciso e avvolgente, da secondi di carne e selvaggina.'},
+  {slug:'vino-clivo-del-re', nome:'Clivo del Re', marca:'Tenuta Uccellina · Sangiovese di Brisighella', cat:'cantina-rossi', tipo:'bottega', storia:'Romagna Sangiovese di Brisighella: rubino, profumi di frutta rossa e una trama elegante. Il rosso giusto per la tavola di ogni giorno, dai primi alla carne.'},
+  {slug:'vino-centodieci', nome:'Centodieci · Pinot Nero 2021', marca:'La Genisia · Oltrepò Pavese', cat:'cantina-rossi', tipo:'bottega', storia:'Pinot Nero dell\u2019Oltrepò Pavese, rosso fermo affinato in barrique. Frutti rossi, spezie e una bocca vellutata: elegante senza essere pesante.'},
+  {slug:'vino-niamh', nome:'Niamh · Marche Passerina', marca:'Bastianelli', cat:'cantina-bianchi', tipo:'bottega', storia:'Bianco da uva Passerina delle Marche. Fresco e agrumato, con un finale sapido: perfetto su pesce, fritti e aperitivi lunghi.'},
+  {slug:'vino-gressina', nome:'Château Gressina · Bordeaux 2020', marca:'Bordeaux rosso · Francia', cat:'cantina-rossi', tipo:'bottega', storia:'Un Bordeaux rosso d\u2019annata, dal taglio classico a base Merlot e Cabernet. Morbido e rotondo: sta bene su arrosti e formaggi di media stagionatura.'},
+  {slug:'vino-cabora', nome:'Cabora', marca:'Viticoltori in Ricco', cat:'cantina-rossi', tipo:'bottega', storia:'Un rosso di territorio, sincero e di pronta beva. Frutto pulito e tannino gentile: una bottiglia che non chiede occasioni speciali per aprirsi.'},
+  // OLIO TOSCANO
+  {slug:'olio-santa-tea', nome:'Olio Extra Vergine Toscano', marca:'Frantoio di Santa Téa · Gonnelli 1585', cat:'olio', tipo:'bottega', storia:'Extravergine toscano da un frantoio che macina dal 1585, a Reggello. Fruttato e vivo, con la sua punta di amaro e piccante: su una bruschetta calda o sui legumi è un\u2019altra cosa.'},
+  // PASTA & RISO
+  {slug:'felicetti-kamut', nome:'Spaghettoni Kamut', marca:'Monograno Felicetti', cat:'pastariso', tipo:'bottega', storia:'Spaghettoni di grano khorasan KAMUT biologico, trafilati al bronzo. Ruvidi e profumati, tengono la cottura e trattengono il sugo come pochi.'},
+  {slug:'campofilone-maltagliati', nome:'Maltagliati all\u2019uovo', marca:'La Campofilone · dal 1912', cat:'pastariso', tipo:'bottega', storia:'Pasta all\u2019uovo di Campofilone, sottile come tradizione marchigiana. Quattro uova e nient\u2019altro: cuoce in un attimo, perfetta in brodo o con un ragù delicato.'},
+  {slug:'benedetto-cavalieri', nome:'Penne & Spaghettoni di semola', marca:'Benedetto Cavalieri · dal 1918', cat:'pastariso', tipo:'bottega', storia:'Semola di grano duro lavorata col \u201cmetodo delicato\u201d in terra d\u2019Otranto. Pasta seria, con corpo e profumo di grano: la base di un piatto come si deve.'},
+  {slug:'acquerello-carnaroli', nome:'Riso Carnaroli invecchiato', marca:'Acquerello', cat:'pastariso', tipo:'bottega', storia:'Carnaroli invecchiato e poi reintegrato della sua gemma: il riso dei risotti veri. Chicco che non scuoce e manteca con eleganza.'},
+  // COLAZIONE & FORNO
+  {slug:'cantuccini', nome:'Cantuccini di Prato', marca:'Biscotti alle mandorle', cat:'colazione', tipo:'bottega', storia:'I cantucci di Prato, croccanti e pieni di mandorle. Da inzuppare nel Vin Santo a fine pasto: tradizione di casa nostra.'},
+  {slug:'grissini-piemontesi', nome:'Grissini stirati a mano', marca:'Il grissino piemontese · classici', cat:'colazione', tipo:'bottega', storia:'Grissini piemontesi stirati a mano uno ad uno. Friabili e irregolari come devono essere: spariscono prima ancora di sedersi a tavola.'},
+  {slug:'amari-panbrioche', nome:'Pan Brioche Croccante', marca:'Amari · Toscana', cat:'colazione', tipo:'bottega', storia:'Fette di pan brioche tostate e croccanti. Dolci al punto giusto: con un velo di marmellata sono la colazione che vorresti ogni giorno.'},
+  {slug:'amari-frollini-riso', nome:'Frollini alla farina di riso', marca:'Amari · Toscana', cat:'colazione', tipo:'bottega', storia:'Frollini friabili alla farina di riso, dal forno Amari. Delicati e leggeri, buoni nel latte come nel tè del pomeriggio.'},
+  {slug:'amari-fette-classiche', nome:'Fette Biscottate Classiche', marca:'Amari · Toscana', cat:'colazione', tipo:'bottega', storia:'Le fette biscottate di sempre, leggere e croccanti. La base sicura della colazione, dal burro e miele alla marmellata.'},
+  {slug:'amari-fette-integrali', nome:'Fette Biscottate Integrali', marca:'Amari · Toscana', cat:'colazione', tipo:'bottega', storia:'Versione integrale, più rustica e profumata di grano. Per chi la mattina vuole qualcosa di pieno ma comunque leggero.'},
+  // DISPENSA
+  {slug:'coletti-fagioli', nome:'Fagioli Barba di Frate', marca:'Coletti · Garfagnana', cat:'dispensa', tipo:'bottega', storia:'Fagioli secchi della Garfagnana, varietà Barba di Frate. Buccia sottile e polpa cremosa: nati per le zuppe e le minestre di una volta.'},
+  {slug:'uova-biosole', nome:'Uova Fresche Biologiche', marca:'Fattoria Biosole · San Miniato', cat:'dispensa', tipo:'bottega', storia:'Quattro uova biologiche da galline allevate all\u2019aperto, da San Miniato. Tuorlo arancione e guscio robusto: si sente nella pasta fresca e nelle frittate.'},
+  {slug:'patatas-nana', nome:'Patatine Nana', marca:'Patatas fritas · extra croccanti', cat:'dispensa', tipo:'bottega', offerta:'Offerta', storia:'Patatine fritte extra croccanti, nella busta rigata bianconera. Lo sfizio salato da aprire quando arrivano gli amici e parte l\u2019aperitivo.'},
+  // CANTINA · ROSSI (nuovi)
+  {slug:'castello-ama-bellavista', nome:'Castello di Ama · Vigneto Bellavista 2019', marca:'Chianti Classico Gran Selezione', cat:'cantina-rossi', tipo:'bottega', storia:'Da uno dei cru storici di Castello di Ama a Gaiole: Sangiovese di grande finezza, con un tocco di Malvasia Nera. Etichetta da collezione, nella sua confezione regalo.'},
+  {slug:'castello-ama-apparita', nome:'Castello di Ama · L\u2019Apparita 2019', marca:'Merlot · Toscana', cat:'cantina-rossi', tipo:'bottega', storia:'Il Merlot che ha fatto la storia del vino italiano. Profondo, vellutato e longevo: una bottiglia importante da grande occasione, con cofanetto.'},
+  {slug:'castello-ama-casuccia', nome:'Castello di Ama · Vigneto La Casuccia 2019', marca:'Chianti Classico Gran Selezione', cat:'cantina-rossi', tipo:'bottega', storia:'Sangiovese in purezza dal vigneto La Casuccia: eleganza, frutto e una trama sottile che invita all\u2019invecchiamento. Confezione regalo.'},
+  {slug:'gottardi-mazzon', nome:'Gottardi · Blauburgunder Mazzon 2019', marca:'Pinot Nero · Alto Adige', cat:'cantina-rossi', tipo:'bottega', storia:'Pinot Nero dalla collina di Mazzon, una delle zone più vocate d\u2019Italia. Teso, profumato e di razza: per chi cerca la finezza alpina.'},
+  {slug:'pilastri-vermentino-nero', nome:'Vermentino Nero', marca:'i Pilastri · Toscana', cat:'cantina-rossi', tipo:'bottega', storia:'Da Vermentino Nero, raro vitigno rosso della Toscana costiera. Frutto scuro e speziatura gentile, beva piena e rilassata.'},
+  {slug:'villa-calcinaia', nome:'Villa Calcinaia · Chianti Classico', marca:'Conti Capponi · dal 1716', cat:'cantina-rossi', tipo:'bottega', storia:'Chianti Classico a base Sangiovese dalle colline di Greve. Frutto, viola e quella sapidità che chiama la tavola: il rosso toscano di riferimento.'},
+  {slug:'benvenuti-teran', nome:'Benvenuti · Anno Domini Teran 2015', marca:'Teran · Istria', cat:'cantina-rossi', tipo:'bottega', storia:'Da uva Teran dell\u2019Istria: rosso scuro, acidità viva e un carattere quasi ferroso. Un vino di territorio, diverso e affascinante, sui piatti di carne saporiti.'},
+  // CANTINA · BIANCHI (nuovi)
+  {slug:'pret-a-boire-blanc', nome:'Prêt à Boire Blanc', marca:'Cave Monaja · Valle d\u2019Aosta', cat:'cantina-bianchi', tipo:'bottega', storia:'Bianco di montagna, fresco e diretto come dice il nome: pronto da bere. Agrumi e fiori bianchi, perfetto sull\u2019aperitivo o sui formaggi freschi.'},
+  {slug:'coeli-vitas', nome:'Coeli Aula · Vitas', marca:'Toscana Bianco', cat:'cantina-bianchi', tipo:'bottega', storia:'Bianco toscano dal sorso pulito e minerale. Profumi di frutta a polpa bianca e una bella freschezza: comodo a tutto pasto.'},
+  {slug:'coeli-evitas', nome:'Coeli Aula · L\u2019Evitas', marca:'Toscana Bianco', cat:'cantina-bianchi', tipo:'bottega', storia:'La versione più morbida della casa: bianco delicato e floreale, di pronta beva. Da aperitivo o con piatti di pesce leggeri.'},
+  // BOLLICINE (nuovi)
+  {slug:'malibran-ruio', nome:'Ruio · Conegliano Valdobbiadene', marca:'Malibran · Prosecco Superiore', cat:'bollicine', tipo:'bottega', storia:'Prosecco Superiore della zona di Conegliano Valdobbiadene. Perlage delicato, mela e fiori bianchi: l\u2019aperitivo italiano per eccellenza.'},
+  {slug:'cadelfaro-vesper', nome:'Vesper · Franciacorta Satèn', marca:'Ca\u2019 del Faro', cat:'bollicine', tipo:'bottega', storia:'Franciacorta Satèn, metodo classico dalla bollicina cremosa e dal dosaggio gentile. Eleganza lombarda, da occasioni che contano.'},
+  {slug:'cleto-chiarli-rose', nome:'Rosé de Noir Brut', marca:'Cleto Chiarli · dal 1860', cat:'bollicine', tipo:'bottega', storia:'Spumante rosé brut da una storica casa di Modena. Bollicina fine, frutti rossi e freschezza: bello dall\u2019aperitivo fino al dolce.'},
+  {slug:'cadelfaro-luma-rose', nome:'Luma Rosé', marca:'Ca\u2019 del Faro', cat:'bollicine', tipo:'bottega', storia:'Rosé spumante dal colore tenue e dai profumi di piccoli frutti. Leggero e conviviale, la bollicina di tutti i giorni.'},
+  {slug:'foehn-monaja', nome:'Foehn', marca:'Cave Monaja · Vallée d\u2019Aoste', cat:'bollicine', tipo:'bottega', storia:'Bollicina di montagna dalla Valle d\u2019Aosta, asciutta e nervosa. Piccola produzione di carattere, per chi cerca qualcosa fuori dal coro.'},
+  // CHAMPAGNE (nuovi)
+  {slug:'champagne-damien-hugot', nome:'Hommage Extra Brut', marca:'Champagne Damien Hugot · Épernay', cat:'champagne', tipo:'bottega', storia:'Champagne extra brut di un vigneron della Côte des Blancs. Dosaggio minimo, dritto e profondo: per chi ama lo Champagne senza fronzoli.'},
+  {slug:'champagne-tassin', nome:'Blanc de Blancs', marca:'Champagne Tassin', cat:'champagne', tipo:'bottega', storia:'Champagne Blanc de Blancs, da sole uve Chardonnay. Teso, agrumato e minerale: finezza pura nel calice.'},
+  {slug:'champagne-tribaut', nome:'Champagne · 8 Terroirs Origine', marca:'Tribaut Schloesser', cat:'champagne', tipo:'bottega', storia:'Assemblaggio dei terroir della Vallée de la Marne: frutto, crosta di pane e una bolla vivace. Champagne di famiglia, di gran beva.'},
+  {slug:'champagne-colin', nome:'Alliance Brut', marca:'Champagne Colin', cat:'champagne', tipo:'bottega', storia:'Champagne brut della Côte des Blancs. Equilibrio tra freschezza e morbidezza: una bolla francese seria a un sorso accessibile.'},
+  // DOLCI & PASSITI (nuovi)
+  {slug:'punta-aria-passito', nome:'Punta Aria · Passito', marca:'Malvasia delle Lipari DOC', cat:'dolci', tipo:'bottega', storia:'Passito di Malvasia delle Lipari: dorato, profumi di albicocca e miele, dolcezza mai stucchevole. Da fine pasto, sui dolci secchi o da meditazione.'},
+  // GASTRONOMIA (al banco, della casa)
+  {slug:'rosbif', nome:'Roast Beef all\u2019inglese', marca:'Preparato in casa · al banco', cat:'gastronomia', tipo:'banco', unita:'affettato al momento', storia:'Il nostro roast beef, cotto rosa al cuore e affettato sottile al momento. Lo finiamo con rucola e scaglie di grana: pronto da portare in tavola o da mettere nel panino.'},
+  {slug:'lasagne', nome:'Lasagne al forno', marca:'Cucina della casa · Paola', cat:'gastronomia', tipo:'banco', unita:'a porzione', storia:'Le lasagne di Paola: sfoglia tirata sottile, ragù che sobbolle dalla mattina e besciamella di sola panna e burro. La teglia che da noi non manca mai la domenica.'},
+  {slug:'pasta-al-forno', nome:'Pasta al forno', marca:'Cucina della casa', cat:'gastronomia', tipo:'banco', unita:'a porzione', storia:'Pasta al forno al pomodoro, filante, con la crosticina sopra come piace a tutti. Se ne fa poca: quando finisce, finisce.'},
+  {slug:'pollo-arrosto-limone', nome:'Pollo arrosto al limone', marca:'Secondi caldi', cat:'gastronomia', tipo:'banco', unita:'mezzo pollo', storia:'Pollo profumato al limone, dorato lentamente in forno. Pelle croccante e carne che si stacca dall\u2019osso: domenica in tavola senza fatica.'},
+  {slug:'pollo-pomodoro-capperi', nome:'Pollo al pomodoro e capperi', marca:'Secondi caldi', cat:'gastronomia', tipo:'banco', unita:'a porzione', storia:'Bocconi di pollo in umido con pomodoro e capperi, un sugo che chiede pane per la scarpetta. Il comfort food del banco.'},
+  {slug:'polpette-ragu', nome:'Polpette al ragù', marca:'Cucina della casa · Rossana', cat:'gastronomia', tipo:'banco', unita:'6 pezzi', storia:'Le polpette di Rossana, morbide dentro e tuffate nel ragù. Sei pezzi che spariscono in un attimo: meglio prenderne di più.'},
+  {slug:'patate-arrosto', nome:'Patate arrosto al rosmarino', marca:'Contorni', cat:'gastronomia', tipo:'banco', unita:'500 g', storia:'Patate arrosto al rosmarino, croste dorate e cuore morbido. Il contorno che mette d\u2019accordo grandi e piccoli.'},
+  // DISTILLATI
+  {slug:'whisky-edradour', nome:'Edradour 10 Anni', marca:'Highland Single Malt · Scozia', cat:'distillati', tipo:'bottega', storia:'Single malt delle Highland da una delle distillerie più piccole di Scozia. Morbido, maltato e rotondo: un whisky che scalda senza spigoli.'},
+  {slug:'whistlepig-rye', nome:'WhistlePig · Small Batch Rye 10', marca:'Rye Whiskey · 100 proof', cat:'distillati', tipo:'bottega', storia:'Rye whiskey americano invecchiato 10 anni. Speziato e deciso, con note di segale e quercia: ottimo liscio o in un cocktail importante.'},
+  {slug:'saocan-rum', nome:'Sao Can · Ron de Cuba Reserva 14/20', marca:'Rum · Cuba · produzione limitata', cat:'distillati', tipo:'bottega', storia:'Rum cubano da lungo invecchiamento, edizione limitata. Caldo e avvolgente, con profumi di cacao e frutta secca: un fine pasto da meditazione.'},
+];
+
+const CATEGORIE = [
+  {id:'tutti', nome:'Tutti i prodotti'},
+  {id:'formaggi', nome:'Formaggi'},
+  {id:'salumi', nome:'Salumi'},
+  {id:'gastronomia', nome:'Gastronomia'},
+  {id:'pomodori', nome:'Pomodori & Sughi'},
+  {id:'sottoli', nome:'Sott\u2019oli'},
+  {id:'mare', nome:'Mare'},
+  {id:'pastariso', nome:'Pasta & Riso'},
+  {id:'olio', nome:'Olio Toscano'},
+  {id:'cantina-rossi', nome:'Vini Rossi'},
+  {id:'cantina-bianchi', nome:'Vini Bianchi'},
+  {id:'bollicine', nome:'Bollicine'},
+  {id:'champagne', nome:'Champagne'},
+  {id:'dolci', nome:'Dolci & Passiti'},
+  {id:'distillati', nome:'Distillati'},
+  {id:'colazione', nome:'Colazione & Forno'},
+  {id:'dispensa', nome:'Dispensa'},
+];
+
+let catAttiva='tutti';
+let lista=[];
+let active=0;
+const IMG='img-prodotti/';
+
+const track=document.getElementById('track');
+const detail=document.getElementById('detail');
+const dotsEl=document.getElementById('dots');
+
+function filtra(){
+  lista = catAttiva==='tutti' ? PRODOTTI.slice() : PRODOTTI.filter(p=>p.cat===catAttiva);
+  active=0;
+}
+
+function renderCat(){
+  const ul=document.getElementById('catList');
+  const mob=document.getElementById('catMobile');
+  ul.innerHTML=''; mob.innerHTML='';
+  CATEGORIE.forEach(c=>{
+    const n = c.id==='tutti'?PRODOTTI.length:PRODOTTI.filter(p=>p.cat===c.id).length;
+    const dis = c.soon || n===0;
+    // desktop
+    const b=document.createElement('button');
+    b.className=(c.id===catAttiva?'on':'')+(dis?' disabled':'');
+    b.innerHTML=`<span>${c.nome}</span>`+(c.soon?`<span class="soon">presto</span>`:`<span class="cnt">${n}</span>`);
+    if(!dis) b.onclick=()=>{catAttiva=c.id;filtra();renderCat();render();};
+    ul.appendChild(b);
+    // mobile
+    const m=document.createElement('button');
+    m.className=(c.id===catAttiva?'on':'')+(dis?' disabled':'');
+    m.textContent=c.nome+(c.soon?' · presto':'');
+    if(!dis) m.onclick=()=>{catAttiva=c.id;filtra();renderCat();render();};
+    mob.appendChild(m);
+  });
+}
+
+function render(){
+  track.innerHTML='';
+  lista.forEach((p,i)=>{
+    const card=document.createElement('div');
+    card.className='pcard'+(i===active?' active':'');
+    card.innerHTML=`
+      ${(p.novita||p.offerta)?`<div class="mini-badges">${p.novita?'<span class="mini-badge novita">Novità</span>':''}${p.offerta?`<span class="mini-badge offerta">${p.offerta}</span>`:''}</div>`:''}
+      <div class="imgwrap"><img src="${IMG}${p.slug}.png" alt="${p.nome}" loading="lazy"></div>
+      <div class="cap">${p.tipo==='banco'?'<div class="sub">'+(p.unita||'al taglio')+'</div>':''}<div class="nm">${p.nome}</div></div>`;
+    card.onclick=()=>{ if(i===active){ /* già attiva */ } else { active=i; positionCards(); renderDetail(); renderDots(); } };
+    track.appendChild(card);
+  });
+  positionCards(); renderDetail(); renderDots();
+}
+
+function positionCards(){
+  const cards=track.children;
+  for(let i=0;i<cards.length;i++){
+    const off=i-active;
+    const a=Math.abs(off);
+    const card=cards[i];
+    if(a>2){ card.style.opacity='0'; card.style.pointerEvents='none'; card.style.transform=`translateX(${off*150}px) scale(.45)`; card.style.zIndex='0'; continue; }
+    const tx=off*150;            // px shift
+    const scale=1-a*0.16;
+    const rot=off*-20;
+    const op=1-a*0.32;
+    card.style.opacity=op;
+    card.style.pointerEvents='auto';
+    card.style.zIndex=100-a;
+    card.style.transform=`translateX(${tx}px) scale(${scale}) rotateY(${rot}deg)`;
+    card.classList.toggle('active',off===0);
+  }
+}
+
+function renderDetail(){
+  const p=lista[active];
+  if(!p){detail.innerHTML='<p class="cart-empty">Presto in arrivo.</p>';return;}
+  const catNome=(CATEGORIE.find(c=>c.id===p.cat)||{}).nome||'';
+  detail.innerHTML=`
+    <p class="ov">${catNome}</p>
+    <h2>${p.nome}</h2>
+    <p class="marca">${p.marca}</p>
+    <p class="storia">${p.storia}</p>
+    <div class="azioni">
+      <button class="btn-add" onclick="addCart('${p.slug}')">Aggiungi al carrello</button>
+      ${p.tipo==='banco'?'<span class="hint">'+(p.unita||'al taglio · a peso')+'</span>':''}
+    </div>`;
+}
+
+function renderDots(){
+  dotsEl.innerHTML='';
+  lista.forEach((p,i)=>{
+    const s=document.createElement('span');
+    if(i===active)s.className='on';
+    s.onclick=()=>{active=i;positionCards();renderDetail();renderDots();};
+    dotsEl.appendChild(s);
+  });
+}
+
+function go(dir){ active=Math.max(0,Math.min(lista.length-1,active+dir)); positionCards();renderDetail();renderDots(); }
+document.getElementById('prevBtn').onclick=()=>go(-1);
+document.getElementById('nextBtn').onclick=()=>go(1);
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')go(-1);if(e.key==='ArrowRight')go(1);});
+
+/* swipe */
+let startX=0,drag=false;
+const stage=document.getElementById('stage');
+stage.addEventListener('pointerdown',e=>{drag=true;startX=e.clientX;});
+window.addEventListener('pointerup',e=>{ if(!drag)return; drag=false; const d=e.clientX-startX; if(d>45)go(-1); else if(d<-45)go(1); });
+
+/* ===== CARRELLO ===== */
+let cart=[];
+const badge=document.getElementById('cartBadge');
+const toast=document.getElementById('toast');
+function addCart(slug){
+  const p=PRODOTTI.find(x=>x.slug===slug); if(!p)return;
+  cart.push(p);
+  badge.style.display='flex'; badge.textContent=cart.length;
+  toast.textContent='\u2713  '+p.nome+' aggiunto';
+  toast.classList.add('show'); clearTimeout(window._t); window._t=setTimeout(()=>toast.classList.remove('show'),1900);
+  renderCart();
+}
+function renderCart(){
+  const box=document.getElementById('cartItems');
+  if(!cart.length){box.innerHTML='<p class="cart-empty">Il carrello è vuoto.</p>';return;}
+  box.innerHTML='';
+  cart.forEach((p,i)=>{
+    const r=document.createElement('div');r.className='cart-row';
+    r.innerHTML=`<img src="${IMG}${p.slug}.png" alt=""><span class="nm">${p.nome}</span><button onclick="rmCart(${i})">×</button>`;
+    box.appendChild(r);
+  });
+}
+function rmCart(i){cart.splice(i,1);badge.textContent=cart.length;if(!cart.length)badge.style.display='none';renderCart();}
+const overlay=document.getElementById('cartOverlay'),drawer=document.getElementById('cartDrawer');
+function openCart(){overlay.classList.add('open');drawer.classList.add('open');}
+function closeCart(){overlay.classList.remove('open');drawer.classList.remove('open');}
+document.getElementById('cartBtn').onclick=openCart;
+document.getElementById('cartClose').onclick=closeCart;
+overlay.onclick=closeCart;
+document.getElementById('checkoutBtn').onclick=()=>{ if(!cart.length){alert('Il carrello è vuoto.');return;} alert('Checkout demo \u2014 qui collegheremo l\u2019ordine vero (asporto / ritiro).'); };
+
+/* init */
+filtra();renderCat();render();
+window.addEventListener('resize',positionCards);
+</script>
+</body>
+</html>
